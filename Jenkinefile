@@ -1,0 +1,49 @@
+// Hello
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main',
+                url: 'https://github.com/Deepandeeps29/Postman_Newman_Jenkins1.git'
+            }
+        }
+
+        stage('Install') {
+            steps {
+                bat 'npm install -g newman'
+                bat 'npm install -g newman-reporter-htmlextra'
+            }
+        }
+
+        stage('Run API Tests') {
+            steps {
+                bat '''
+                if not exist reports mkdir reports
+
+                newman run Asset.postman_collection.json ^
+                -e Practice.postman_environment.json ^
+                -r cli,htmlextra,junit ^
+                --reporter-htmlextra-export reports/API_Report.html ^
+                --reporter-junit-export reports/API_Report.xml
+                '''
+            }
+        }
+    }
+
+    post {
+        always {
+            junit allowEmptyResults: true,
+                  testResults: 'reports/API_Report.xml'
+
+            emailext(
+                subject: "API Automation - ${env.BUILD_NUMBER}",
+                body: "Execution completed",
+                to: "deepanvinayagam2912@gmail.com",
+                attachmentsPattern: "reports/API_Report.html"
+            )
+        }
+    }
+}
