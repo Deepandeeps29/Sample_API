@@ -23,8 +23,8 @@ pipeline {
                 bat '''
                 if not exist reports mkdir reports
 
-                newman run Asset.postman_collection.json ^
-                -e Practice.postman_environment.json ^
+                newman run API_Testing.postman_collection ^
+                -e QA.postman_environment ^
                 -r cli,htmlextra,junit ^
                 --reporter-htmlextra-export reports/API_Report.html ^
                 --reporter-junit-export reports/API_Report.xml
