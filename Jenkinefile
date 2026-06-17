@@ -23,11 +23,11 @@ pipeline {
                 bat '''
                 if not exist reports mkdir reports
 
-                newman run API_Testing.postman_collection ^
-                -e QA.postman_environment ^
+                newman run "C:/Users/Deepan Vinayagam/Desktop/Asset_Management/Practice/API_Automation/Sample/Collection/API_Testing.postman_collection.json" ^
+                -e "C:/Users/Deepan Vinayagam/Desktop/Asset_Management/Practice/API_Automation/Sample/Environment/QA.postman_environment.json" ^
                 -r cli,htmlextra,junit ^
-                --reporter-htmlextra-export reports/API_Report.html ^
-                --reporter-junit-export reports/API_Report.xml
+                --reporter-htmlextra-export "C:/Users/Deepan Vinayagam/Desktop/Asset_Management/Practice/API_Automation/Sample/Reports/API_Report.html" ^
+                --reporter-junit-export "C:/Users/Deepan Vinayagam/Desktop/Asset_Management/Practice/API_Automation/Sample/Reports/API_Report.xml"
                 '''
             }
         }
